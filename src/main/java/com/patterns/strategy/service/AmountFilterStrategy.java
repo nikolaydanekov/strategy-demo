@@ -1,5 +1,6 @@
 package com.patterns.strategy.service;
 
+
 import com.patterns.strategy.domain.DemoEntity;
 
 public class AmountFilterStrategy implements  FilterStrategy{
