@@ -1,67 +1,41 @@
 package com.patterns.strategy.service;
 
 import com.patterns.strategy.domain.DemoEntity;
-import com.patterns.strategy.domain.Status;
 import com.patterns.strategy.dto.FilterByEnum;
 import com.patterns.strategy.repository.DemoEntityRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class FilterServiceImpl implements FilterService{
     private final DemoEntityRepository demoEntityRepository;
 
+    private final Map<FilterByEnum, FilterStrategy> filterStrategyMap;
+
+    public FilterServiceImpl(DemoEntityRepository demoEntityRepository){
+        this.demoEntityRepository = demoEntityRepository;
+        filterStrategyMap = new HashMap<>();
+        filterStrategyMap.put(FilterByEnum.NAME, new NameFilterStrategy());
+        filterStrategyMap.put(FilterByEnum.AMOUNT, new AmountFilterStrategy());
+        filterStrategyMap.put(FilterByEnum.STATUS, new StatusFilterStrategy());
+    }
+
     @Override
     public List<DemoEntity> filterEntities(FilterByEnum filterBy, String filterValue) {
-        List<DemoEntity> filteredEntities;
-        switch (filterBy){
-            case NAME:
-                filteredEntities = filterByName(demoEntityRepository.getAllEntities(), filterValue);
-                break;
-            case AMOUNT:
-                filteredEntities = filterByAmount(demoEntityRepository.getAllEntities(), filterValue);
-                break;
-            case STATUS:
-                filteredEntities = filterByStatus(demoEntityRepository.getAllEntities(), filterValue);
-                break;
-            default:
-                filteredEntities = new ArrayList<>();
-        }
-        return filteredEntities;
+        return filterDemoList(demoEntityRepository.getAllEntities(), filterStrategyMap.get(filterBy), filterValue);
     }
 
-    private List<DemoEntity> filterByName(List<DemoEntity> fullList, String value){
+    private List<DemoEntity> filterDemoList(List<DemoEntity> fullList, FilterStrategy filterStrategy, String value){
         List<DemoEntity> result = new ArrayList<>();
         for(DemoEntity demoEntity: fullList){
-            if(!demoEntity.getName().equals(value)){
+            if(!filterStrategy.shouldFilter(demoEntity, value)){
                 result.add(demoEntity);
             }
         }
         return result;
     }
-
-    private List<DemoEntity> filterByAmount(List<DemoEntity> fullList, String value){
-        List<DemoEntity> result = new ArrayList<>();
-        for(DemoEntity demoEntity: fullList){
-            if(!demoEntity.getAmount().equals(Long.valueOf(value))){
-                result.add(demoEntity);
-            }
-        }
-        return result;
-    }
-
-    private List<DemoEntity> filterByStatus(List<DemoEntity> fullList, String value){
-        List<DemoEntity> result = new ArrayList<>();
-        for(DemoEntity demoEntity: fullList){
-            if(!demoEntity.getStatus().equals(Status.valueOf(value))){
-                result.add(demoEntity);
-            }
-        }
-        return result;
-    }
-
 }
