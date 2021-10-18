@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DemoEntity {
-
     private String name;
     private Long amount;
     private Status status;

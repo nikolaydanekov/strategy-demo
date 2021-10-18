@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class DemoRestController {
+
     private final FilterService filterService;
 
     @GetMapping(value = "/demo", produces = "application/json")
