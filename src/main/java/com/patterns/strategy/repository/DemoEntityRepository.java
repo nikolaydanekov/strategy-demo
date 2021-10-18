@@ -9,7 +9,6 @@ import java.util.List;
 
 @Component
 public class DemoEntityRepository {
-
     public List<DemoEntity> getAllEntities(){
         return Arrays.asList(
                 new DemoEntity("Some name", 5L, Status.ACTIVE),
