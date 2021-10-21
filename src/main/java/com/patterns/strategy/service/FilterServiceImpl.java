@@ -17,7 +17,7 @@ public class FilterServiceImpl implements FilterService{
 
     @Override
     public List<DemoEntity> filterEntities(FilterByEnum filterBy, String filterValue) {
-        List<DemoEntity> filteredEntities = new ArrayList<>();
+        List<DemoEntity> filteredEntities;
         switch (filterBy){
             case NAME:
                 filteredEntities = filterByName(demoEntityRepository.getAllEntities(), filterValue);
@@ -28,6 +28,8 @@ public class FilterServiceImpl implements FilterService{
             case STATUS:
                 filteredEntities = filterByStatus(demoEntityRepository.getAllEntities(), filterValue);
                 break;
+            default:
+                filteredEntities = new ArrayList<>();
         }
         return filteredEntities;
     }
