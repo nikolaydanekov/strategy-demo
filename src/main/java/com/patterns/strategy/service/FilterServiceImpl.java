@@ -5,10 +5,7 @@ import com.patterns.strategy.dto.FilterByEnum;
 import com.patterns.strategy.repository.DemoEntityRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class FilterServiceImpl implements FilterService{
@@ -26,10 +23,10 @@ public class FilterServiceImpl implements FilterService{
 
     @Override
     public List<DemoEntity> filterEntities(FilterByEnum filterBy, String filterValue) {
-        return filterDemoList(demoEntityRepository.getAllEntities(), filterStrategyMap.get(filterBy), filterValue);
+        return filterDemoCollection(demoEntityRepository.getAllEntities(), filterStrategyMap.get(filterBy), filterValue);
     }
 
-    private List<DemoEntity> filterDemoList(List<DemoEntity> fullList, FilterStrategy filterStrategy, String value){
+    private List<DemoEntity> filterDemoCollection(Collection<DemoEntity> fullList, FilterStrategy filterStrategy, String value){
         List<DemoEntity> result = new ArrayList<>();
         for(DemoEntity demoEntity: fullList){
             if(!filterStrategy.shouldFilter(demoEntity, value)){
