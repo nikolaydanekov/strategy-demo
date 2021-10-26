@@ -32,6 +32,5 @@ public class FilterServiceImpl implements FilterService{
         return fullList.stream()
                 .filter(demoEntity -> filterStrategy.shouldFilter(demoEntity, value))
                 .collect(Collectors.toList());
-
     }
 }
