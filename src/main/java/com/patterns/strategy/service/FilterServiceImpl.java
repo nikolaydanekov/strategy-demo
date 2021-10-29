@@ -1,10 +1,9 @@
 package com.patterns.strategy.service;
 
-import com.patterns.strategy.domain.VideoGame;
 import com.patterns.strategy.domain.Genre;
+import com.patterns.strategy.domain.VideoGame;
 import com.patterns.strategy.dto.FilterByEnum;
-import com.patterns.strategy.repository.DemoEntityRepository;
-import com.sun.jdi.FloatValue;
+import com.patterns.strategy.repository.VideoGameRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,26 +14,26 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class FilterServiceImpl implements FilterService{
-    private final DemoEntityRepository demoEntityRepository;
+    private final VideoGameRepository videoGameRepository;
 
     @Override
     public List<VideoGame> filterEntities(FilterByEnum filterBy, String filterValue) {
         List<VideoGame> filteredEntities;
         switch (filterBy){
             case PRICE_GREATER_THAN:
-                filteredEntities = filterByPriceGreaterThan(demoEntityRepository.getAllEntities(), filterValue);
+                filteredEntities = filterByPriceGreaterThan(videoGameRepository.getAllEntities(), filterValue);
                 break;
             case PRICE_LOWER_THAN:
-                filteredEntities = filterByPriceLowerThan(demoEntityRepository.getAllEntities(), filterValue);
+                filteredEntities = filterByPriceLowerThan(videoGameRepository.getAllEntities(), filterValue);
                 break;
             case GENRE:
-                filteredEntities = filterByGenre(demoEntityRepository.getAllEntities(), filterValue);
+                filteredEntities = filterByGenre(videoGameRepository.getAllEntities(), filterValue);
                 break;
             case RATING_GRATER_THAN:
-                filteredEntities = filterByRatingGreaterThan(demoEntityRepository.getAllEntities(), filterValue);
+                filteredEntities = filterByRatingGreaterThan(videoGameRepository.getAllEntities(), filterValue);
                 break;
             default:
-                filteredEntities = demoEntityRepository.getAllEntities();
+                filteredEntities = videoGameRepository.getAllEntities();
         }
         return filteredEntities;
     }
