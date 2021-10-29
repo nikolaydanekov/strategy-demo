@@ -1,19 +1,16 @@
 package com.patterns.strategy.repository;
 
 import com.patterns.strategy.domain.VideoGame;
-import com.patterns.strategy.domain.Genre;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static com.patterns.strategy.domain.Genre.*;
 @Component
-public class DemoEntityRepository {
+public class VideoGameRepository {
     public List<VideoGame> getAllEntities(){
         return Arrays.asList(
                 new VideoGame("God of war", BigDecimal.valueOf(69.99), Set.of(RPG, ACTION, THIRD_PERSON), 9.0f),

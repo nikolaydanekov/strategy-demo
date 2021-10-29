@@ -10,7 +10,7 @@ import java.util.*;
 
 @Service
 public class FilterServiceImpl implements FilterService{
-    private final DemoEntityRepository demoEntityRepository;
+    private final VideoGameRepository videoGameRepository;
 
     private final Map<FilterByEnum, FilterStrategy> filterStrategyMap;
 
@@ -25,7 +25,7 @@ public class FilterServiceImpl implements FilterService{
 
     @Override
     public List<VideoGame> filterEntities(FilterByEnum filterBy, String filterValue) {
-        return filterDemoCollection(demoEntityRepository.getAllEntities(), filterStrategyMap.get(filterBy), filterValue);
+        return filterDemoCollection(videoGameRepository.getAllEntities(), filterStrategyMap.get(filterBy), filterValue);
     }
 
     private List<VideoGame> filterDemoCollection(Collection<VideoGame> fullList, FilterStrategy filterStrategy, String value){
