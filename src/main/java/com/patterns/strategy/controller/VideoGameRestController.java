@@ -1,6 +1,6 @@
 package com.patterns.strategy.controller;
 
-import com.patterns.strategy.domain.DemoEntity;
+import com.patterns.strategy.domain.VideoGame;
 import com.patterns.strategy.dto.FilterByEnum;
 import com.patterns.strategy.service.FilterService;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +14,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class DemoRestController {
+public class VideoGameRestController {
     private final FilterService filterService;
 
     @GetMapping(value = "/demo", produces = "application/json")
     public @ResponseBody
-    List<DemoEntity> getDemo(@NonNull @RequestParam("filter-by") FilterByEnum filterBy, @NonNull @RequestParam("filter-value") String filterValue){
+    List<VideoGame> getDemo(@NonNull @RequestParam("filter-by") FilterByEnum filterBy, @NonNull @RequestParam("filter-value") String filterValue){
         return filterService.filterEntities(filterBy, filterValue);
     }
 }

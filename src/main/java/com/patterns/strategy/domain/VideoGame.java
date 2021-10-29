@@ -4,11 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DemoEntity {
+public class VideoGame {
     private String name;
-    private Long amount;
-    private Status status;
+    private BigDecimal price;
+    private Set<Genre> genres;
+    private Float rating;
 }
