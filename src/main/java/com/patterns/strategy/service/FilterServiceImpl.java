@@ -1,14 +1,11 @@
 package com.patterns.strategy.service;
 
 import com.patterns.strategy.domain.VideoGame;
-import com.patterns.strategy.domain.Genre;
 import com.patterns.strategy.dto.FilterByEnum;
 import com.patterns.strategy.repository.DemoEntityRepository;
-import com.sun.jdi.FloatValue;
-import lombok.RequiredArgsConstructor;
+import com.patterns.strategy.service.strategy.*;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -20,21 +17,22 @@ public class FilterServiceImpl implements FilterService{
     public FilterServiceImpl(DemoEntityRepository demoEntityRepository){
         this.demoEntityRepository = demoEntityRepository;
         filterStrategyMap = new HashMap<>();
-        filterStrategyMap.put(FilterByEnum.NAME, new NameFilterStrategy());
-        filterStrategyMap.put(FilterByEnum.AMOUNT, new AmountFilterStrategy());
-        filterStrategyMap.put(FilterByEnum.STATUS, new StatusFilterStrategy());
+        filterStrategyMap.put(FilterByEnum.PRICE_GREATER_THAN, new PriceGreaterThanFilterStrategy());
+        filterStrategyMap.put(FilterByEnum.PRICE_LOWER_THAN, new PriceLowerThanFilterStrategy());
+        filterStrategyMap.put(FilterByEnum.GENRE, new GenreFilterStrategy());
+        filterStrategyMap.put(FilterByEnum.RATING_GRATER_THAN, new RatingGreaterThanFilterStrategy());
     }
 
     @Override
-    public List<DemoEntity> filterEntities(FilterByEnum filterBy, String filterValue) {
+    public List<VideoGame> filterEntities(FilterByEnum filterBy, String filterValue) {
         return filterDemoCollection(demoEntityRepository.getAllEntities(), filterStrategyMap.get(filterBy), filterValue);
     }
 
-    private List<DemoEntity> filterDemoCollection(Collection<DemoEntity> fullList, FilterStrategy filterStrategy, String value){
-        List<DemoEntity> result = new ArrayList<>();
-        for(DemoEntity demoEntity: fullList){
-            if(!filterStrategy.shouldFilter(demoEntity, value)){
-                result.add(demoEntity);
+    private List<VideoGame> filterDemoCollection(Collection<VideoGame> fullList, FilterStrategy filterStrategy, String value){
+        List<VideoGame> result = new ArrayList<>();
+        for(VideoGame videoGame: fullList){
+            if(filterStrategy.shouldInclude(videoGame, value)){
+                result.add(videoGame);
             }
         }
         return result;
