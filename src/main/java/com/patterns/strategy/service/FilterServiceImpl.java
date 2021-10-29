@@ -1,12 +1,17 @@
 package com.patterns.strategy.service;
 
+import com.patterns.strategy.domain.Genre;
 import com.patterns.strategy.domain.VideoGame;
 import com.patterns.strategy.dto.FilterByEnum;
 import com.patterns.strategy.repository.VideoGameRepository;
-import com.patterns.strategy.service.strategy.*;
+import com.patterns.strategy.service.strategy.FilterStrategy;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -15,16 +20,13 @@ public class FilterServiceImpl implements FilterService{
 
     private final Map<FilterByEnum, FilterStrategy> filterStrategyMap;
 
-    public FilterServiceImpl(VideoGameRepository demoEntityRepository){
-        this.videoGameRepository = demoEntityRepository;
+    public FilterServiceImpl(VideoGameRepository videoGameRepository){
+        this.videoGameRepository = videoGameRepository;
         filterStrategyMap = new HashMap<>();
-        filterStrategyMap.put(FilterByEnum.NAME, (demoEntity, value) -> demoEntity.getName().equals(value));
-        filterStrategyMap.put(FilterByEnum.AMOUNT, (demoEntity, value) -> demoEntity.getAmount().equals(Long.valueOf(value)));
-        filterStrategyMap.put(FilterByEnum.STATUS, (demoEntity, value) -> demoEntity.getStatus().equals(Status.valueOf(value)));
-        filterStrategyMap.put(FilterByEnum.PRICE_GREATER_THAN, new PriceGreaterThanFilterStrategy());
-        filterStrategyMap.put(FilterByEnum.PRICE_LOWER_THAN, new PriceLowerThanFilterStrategy());
-        filterStrategyMap.put(FilterByEnum.GENRE, new GenreFilterStrategy());
-        filterStrategyMap.put(FilterByEnum.RATING_GRATER_THAN, new RatingGreaterThanFilterStrategy());
+        filterStrategyMap.put(FilterByEnum.PRICE_GREATER_THAN, (videoGame, value) -> videoGame.getPrice().compareTo(new BigDecimal(value)) >= 0);
+        filterStrategyMap.put(FilterByEnum.PRICE_LOWER_THAN, (videoGame, value) -> videoGame.getPrice().compareTo(new BigDecimal(value)) <= 0);
+        filterStrategyMap.put(FilterByEnum.GENRE, (videoGame, value) -> videoGame.getGenres().contains(Genre.valueOf(value)));
+        filterStrategyMap.put(FilterByEnum.RATING_GRATER_THAN, (videoGame, value) -> videoGame.getRating() >= Float.parseFloat(value));
     }
 
     @Override
@@ -32,9 +34,9 @@ public class FilterServiceImpl implements FilterService{
         return filterDemoCollection(videoGameRepository.getAllEntities(), filterStrategyMap.get(filterBy), filterValue);
     }
 
-    private List<DemoEntity> filterDemoCollection(Collection<DemoEntity> fullList, FilterStrategy filterStrategy, String value){
+    private List<VideoGame> filterDemoCollection(Collection<VideoGame> fullList, FilterStrategy filterStrategy, String value){
         return fullList.stream()
-                .filter(demoEntity -> filterStrategy.shouldFilter(demoEntity, value))
+                .filter(videoGame -> filterStrategy.shouldInclude(videoGame, value))
                 .collect(Collectors.toList());
     }
 }
