@@ -2,7 +2,7 @@ package com.patterns.strategy.service;
 
 import com.patterns.strategy.domain.VideoGame;
 import com.patterns.strategy.dto.FilterByEnum;
-import com.patterns.strategy.repository.DemoEntityRepository;
+import com.patterns.strategy.repository.VideoGameRepository;
 import com.patterns.strategy.service.strategy.*;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +14,8 @@ public class FilterServiceImpl implements FilterService{
 
     private final Map<FilterByEnum, FilterStrategy> filterStrategyMap;
 
-    public FilterServiceImpl(DemoEntityRepository demoEntityRepository){
-        this.demoEntityRepository = demoEntityRepository;
+    public FilterServiceImpl(VideoGameRepository demoEntityRepository){
+        this.videoGameRepository = demoEntityRepository;
         filterStrategyMap = new HashMap<>();
         filterStrategyMap.put(FilterByEnum.PRICE_GREATER_THAN, new PriceGreaterThanFilterStrategy());
         filterStrategyMap.put(FilterByEnum.PRICE_LOWER_THAN, new PriceLowerThanFilterStrategy());
