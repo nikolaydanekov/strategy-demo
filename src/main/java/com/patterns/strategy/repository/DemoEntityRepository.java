@@ -1,24 +1,29 @@
 package com.patterns.strategy.repository;
 
-import com.patterns.strategy.domain.DemoEntity;
-import com.patterns.strategy.domain.Status;
+import com.patterns.strategy.domain.VideoGame;
+import com.patterns.strategy.domain.Genre;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import static com.patterns.strategy.domain.Genre.*;
 @Component
 public class DemoEntityRepository {
-    public List<DemoEntity> getAllEntities(){
+    public List<VideoGame> getAllEntities(){
         return Arrays.asList(
-                new DemoEntity("Some name", 5L, Status.ACTIVE),
-                new DemoEntity("Other entity", 4L, Status.DELETED),
-                new DemoEntity("Some name", 5L, Status.SUSPENDED),
-                new DemoEntity("Third name", 6L, Status.ACTIVE),
-                new DemoEntity("Kotka", 5L, Status.ACTIVE),
-                new DemoEntity("Some name", 3L, Status.DELETED),
-                new DemoEntity("Some name", 3L, Status.SUSPENDED),
-                new DemoEntity("Kotka", 5L, Status.SUSPENDED),
-                new DemoEntity("Some name", 15L, Status.ACTIVE));
+                new VideoGame("God of war", BigDecimal.valueOf(69.99), Set.of(RPG, ACTION, THIRD_PERSON), 9.0f),
+                new VideoGame("DnD", BigDecimal.valueOf(20), Set.of(RPG, BOARD), 8.5f),
+                new VideoGame("Counter Strike", BigDecimal.valueOf(69.99), Set.of(ACTION, FIRST_PERSON_SHOOTER), 9.0f),
+                new VideoGame("Super Mario", BigDecimal.valueOf(69.99), Set.of(PLATFORMER, ACTION, THIRD_PERSON), 9.5f),
+                new VideoGame("Star Craft 2", BigDecimal.valueOf(69.99), Set.of(RPG, STRATEGY), 9.0f),
+                new VideoGame("Goat simulator", BigDecimal.valueOf(69.99), Set.of(RPG, ACTION, SIMULATOR), 7.0f),
+                new VideoGame("Some bad game", BigDecimal.valueOf(10), Set.of(RPG, ACTION, THIRD_PERSON), 4.0f),
+                new VideoGame("Deadpool", BigDecimal.valueOf(30), Set.of(RPG, ACTION, THIRD_PERSON), 7f),
+                new VideoGame("A horrendous game", BigDecimal.valueOf(5), Set.of(RPG, ACTION, THIRD_PERSON), 2f));
     }
 }
