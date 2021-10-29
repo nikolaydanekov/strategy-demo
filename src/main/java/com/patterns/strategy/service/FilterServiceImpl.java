@@ -1,10 +1,14 @@
 package com.patterns.strategy.service;
 
-import com.patterns.strategy.domain.DemoEntity;
+import com.patterns.strategy.domain.VideoGame;
+import com.patterns.strategy.domain.Genre;
 import com.patterns.strategy.dto.FilterByEnum;
 import com.patterns.strategy.repository.DemoEntityRepository;
+import com.sun.jdi.FloatValue;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -35,4 +39,5 @@ public class FilterServiceImpl implements FilterService{
         }
         return result;
     }
+
 }
